@@ -4,19 +4,25 @@ import { useState } from "react";
 import CvView from "./cv-view";
 const Form = () => {
   const { register, handleSubmit } = useForm();
-  const [name, setName] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
+  const [formState, setFormState] = useState({
+    name: "",
+    skills: [],
+    isSubmitted: false,
+  });
+
   const readFormData = ({ firstName, middleName, lastName, skills }) => {
-    setSkills(skills);
-    setName(`${firstName} ${middleName} ${lastName}`);
-    setSubmitted(true);
+    setFormState({
+      ...formState,
+      name: `${firstName} ${middleName} ${lastName}`,
+      skills,
+      isSubmitted: true,
+    });
   };
 
   return (
     <>
-      {submitted ? (
-        <CvView name={name} skills={skills} />
+      {formState.isSubmitted ? (
+        <CvView name={formState.name} skills={formState.skills} />
       ) : (
         <form className="form" onSubmit={handleSubmit(readFormData)}>
           <h1>C V MAKER</h1>
