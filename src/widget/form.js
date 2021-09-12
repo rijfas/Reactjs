@@ -1,43 +1,65 @@
-import { useForm } from 'react-hook-form';
-import React from 'react';
-import { useState } from 'react';
-
+import { useForm } from "react-hook-form";
+import React from "react";
+import { useState } from "react";
+import CvView from "./cv-view";
 const Form = () => {
-    
-    const {register, handleSubmit} = useForm();
-    var [n, setName] = useState(' ');
+  const { register, handleSubmit } = useForm();
+  const [name, setName] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const readFormData = ({ firstName, middleName, lastName, skills }) => {
+    setSkills(skills);
+    setName(`${firstName} ${middleName} ${lastName}`);
+    setSubmitted(true);
+  };
 
-    const onClick = (data) => {
-        let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName;
-        setName(name);
-    };
-   
-        return(
-            <div className='Form' onSubmit={handleSubmit(onClick)}>
-                <form>
-                    First Name  &nbsp;&nbsp;&nbsp;&nbsp;: <input {...register('firstName')} type="text" name='firstName'  /> <br /> <br />
-                    Middle Name &nbsp;: <input {...register('middleName')} type="text" name='middleName'  /> <br /> <br />
-                    Last Name   &nbsp;&nbsp;&nbsp;&nbsp;: <input {...register('lastName')} type="text" name='lastName'  /> <br /> <br />
-                    Skills &nbsp;&nbsp;&nbsp;&nbsp;: <input type="checkbox" name='java' {...register('java')} /> &nbsp;Java &nbsp; <input type="checkbox" name='python' {...register('python')} /> &nbsp; Python <br /> <br />
-                    <button type='submit' > SUBMIT </button>
-                </form>
-
-                <br /><br /><br />
-
-                <table border='1' align='center'>
-            <tr>
-                <td>name</td>
-                <td>{n}</td>
-            </tr>
-                </table>
-
-                </div>
-              
-            
-              );
-    
-                   
-                    
+  return (
+    <>
+      {submitted ? (
+        <CvView name={name} skills={skills} />
+      ) : (
+        <form className="form" onSubmit={handleSubmit(readFormData)}>
+          <h1>C V MAKER</h1>
+          <div className="form-input">
+            <label htmlFor="firstName">First Name:</label>
+            <input {...register("firstName")} type="text" name="firstName" />
+          </div>
+          <div className="form-input">
+            <label htmlFor="middleName">Middle Name:</label>
+            <input {...register("middleName")} type="text" name="middleName" />
+          </div>
+          <div className="form-input">
+            <label htmlFor="lastName">Last Name:</label>
+            <input {...register("lastName")} type="text" name="lastName" />
+          </div>
+          <div className="form-input">
+            <label htmlFor="skills">Skills:</label>
+            <div className="check">
+              <input
+                type="checkbox"
+                name="skills"
+                value="java"
+                {...register("skills")}
+              />{" "}
+              Java
+            </div>
+            <div className="check">
+              <input
+                type="checkbox"
+                name="skills"
+                value="python"
+                {...register("skills")}
+              />{" "}
+              Python
+            </div>
+          </div>
+          <div>
+            <button type="submit"> SUBMIT </button>
+          </div>
+        </form>
+      )}
+    </>
+  );
 };
 
-export default Form
+export default Form;
