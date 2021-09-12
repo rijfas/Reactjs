@@ -1,23 +1,10 @@
 import { useForm } from "react-hook-form";
 import React from "react";
-import { useState } from "react";
 import CvView from "./cv-view";
+import { usePersonForm } from "../hooks/use-person-form";
 const Form = () => {
   const { register, handleSubmit } = useForm();
-  const [formState, setFormState] = useState({
-    name: "",
-    skills: [],
-    isSubmitted: false,
-  });
-
-  const readFormData = ({ firstName, middleName, lastName, skills }) => {
-    setFormState({
-      ...formState,
-      name: `${firstName} ${middleName} ${lastName}`,
-      skills,
-      isSubmitted: true,
-    });
-  };
+  const { formState, readFormData } = usePersonForm();
 
   return (
     <>

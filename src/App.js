@@ -1,6 +1,6 @@
 import "./App.css";
-import Form from "./widget/form";
-// import { Table } from './widget/form';
+import Form from "./widgets/form";
+
 const App = () => {
   return (
     <div className="App">
